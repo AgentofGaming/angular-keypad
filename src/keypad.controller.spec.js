@@ -283,7 +283,20 @@ describe('KeypadController', () => {
         let element;
         let vm;
         const defaultNumbers =
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]; // eslint-disable-line no-magic-numbers
+            [
+                { number: 1, superscript: '' },
+                { number: 2, superscript: 'ABC' },
+                { number: 3, superscript: 'DEF' },
+                { number: 4, superscript: 'GHI' },
+                { number: 5, superscript: 'JKL' },
+                { number: 6, superscript: 'MNO' },
+                { number: 7, superscript: 'PQRS' },
+                { number: 8, superscript: 'TUV' },
+                { number: 9, superscript: 'WXYZ' },
+                { number: '*', superscript: '' },
+                { number: 0, superscript: '+' },
+                { number: '#', superscript: '' },
+            ]; // eslint-disable-line no-magic-numbers
 
         beforeEach(() => {
             $scope = $rootScope.$new();
