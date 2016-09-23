@@ -38,6 +38,12 @@ export class KeypadController {
 
         // The numbers that make up the keypad
         this.numbers = this.bcKeypadConfig.numbers.slice();
+        this.numberMap = {};
+
+        for (const idx in this.numbers) {
+            const button = this.numbers[idx];
+            this.numberMap[button.number] = true;
+        }
 
         // Pull the last number off of the array so that we can inject it outside of the ng-repeat
         // Only a center number iff a single number outside a row
@@ -144,6 +150,14 @@ export class KeypadController {
 
     }
 
+    onKeyPressed($event) {
+        const keyChar = $event.key;
+
+        if (this.numberMap[keyChar]) {
+            this.setNumber(keyChar);
+            return;
+        }
+    }
 
 }
 
