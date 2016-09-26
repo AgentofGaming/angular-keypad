@@ -150,12 +150,20 @@ export class KeypadController {
 
     }
 
-    onKeyPressed($event) {
+    onKeyDown($event) {
         const keyChar = $event.key;
+
+        if (keyChar === 'Enter' &&
+            typeof this.bcSubmitMethod !== 'undefined') {
+            this.bcSubmitMethod();
+        }
+
+        if (keyChar === 'Backspace') {
+            this.backspace();
+        }
 
         if (this.numberMap[keyChar]) {
             this.setNumber(keyChar);
-            return;
         }
     }
 
