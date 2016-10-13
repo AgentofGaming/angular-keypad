@@ -66,7 +66,8 @@ export class KeypadController {
     setNumber(number) {
         // If a max length is defined, verify we have not yet reached it
         if (!this.bcMaxLength || this.bcNumberModel.length < this.bcMaxLength) {
-            this.bcNumberModel += number;
+            this.bcNumberModel += number
+            this.onNumberChanged({ 'number': number });
         }
     }
 

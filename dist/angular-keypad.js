@@ -220,7 +220,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bcLeftButtonMethod: '&',
 	            bcRightButtonMethod: '&',
 	            bcEmptyBackspaceMethod: '&',
-	            bcSubmitMethod: '&'
+	            bcSubmitMethod: '&',
+	            onNumberChanged: '&'
 	        },
 	        templateUrl: _keypad3.default,
 	        controller: _keypad.KeypadController,
@@ -325,6 +326,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // If a max length is defined, verify we have not yet reached it
 	            if (!this.bcMaxLength || this.bcNumberModel.length < this.bcMaxLength) {
 	                this.bcNumberModel += number;
+	                this.onNumberChanged({ 'number': number });
 	            }
 	        }
 	

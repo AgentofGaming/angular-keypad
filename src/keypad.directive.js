@@ -24,6 +24,7 @@ export function KeypadDirective() {
             bcRightButtonMethod: '&',
             bcEmptyBackspaceMethod: '&',
             bcSubmitMethod: '&',
+            onNumberChanged: '&',
         },
         templateUrl: template,
         controller: KeypadController,

@@ -2,6 +2,10 @@ describe('KeypadController', () => {
     let $compile;
     let $rootScope;
 
+    function triggerKeyDown(element, key) {
+        angular.element(element).triggerHandler({ type: 'keydown', key: key });
+    }
+
     // Include the module
     beforeEach(angular.mock.module('bc.AngularKeypad'));
 
@@ -183,6 +187,7 @@ describe('KeypadController', () => {
             $scope = $rootScope.$new();
             $scope.buttonLeft = function($event, numbers) {};
             $scope.buttonRight = function($event, numbers) {};
+            $scope.numberChanged = function(number) {};
             $scope.numbers = '12';
             element = angular.element(`
                 <bc-keypad
@@ -191,6 +196,7 @@ describe('KeypadController', () => {
                     bc-right-button="submit"
                     bc-left-button-method="buttonLeft($event, numbers)"
                     bc-right-button-method="buttonRight($event, numbers)"
+                    on-number-changed="numberChanged(number)"
                 ></bc-keypad>
             `);
             element = $compile(element)($scope);
@@ -199,6 +205,7 @@ describe('KeypadController', () => {
 
             spyOn($scope, 'buttonLeft');
             spyOn($scope, 'buttonRight');
+            spyOn($scope, 'numberChanged');
         });
 
         afterEach(() => {
@@ -235,6 +242,14 @@ describe('KeypadController', () => {
             angular.element(numberButton).triggerHandler('click');
 
             expect($scope.buttonRight).toHaveBeenCalled();
+        });
+
+        it('should call onNumberChanged when a number is clicked', () => {
+            const buttonArray = element[0].querySelectorAll('.bc-keypad__key > button');
+            const numberButton = buttonArray[2];
+            angular.element(numberButton).triggerHandler('click');
+
+            expect($scope.numberChanged).toHaveBeenCalled();
         });
 
     });
@@ -349,6 +364,63 @@ describe('KeypadController', () => {
             const buttonArray = element[0].querySelectorAll('.bc-keypad__key');
 
             expect(buttonArray.length).toEqual(defaultNumbers.length + 2);
+        });
+
+    });
+
+    describe('keyboard interaction', () => {
+        let $scope;
+        let element;
+        let vm;
+        let event;
+
+        beforeEach(() => {
+            $scope = $rootScope.$new();
+            $scope.numberChanged = function(number) {};
+            $scope.submitMethod = function(numbers) {};
+            $scope.buttonLeft = function($event, numbers) {};
+            $scope.buttonRight = function($event, numbers) {};
+            $scope.numbers = '12';
+            element = angular.element(`
+                <bc-keypad
+                    bc-number-model="numbers"
+                    bc-left-button="backspace"
+                    bc-right-button="submit"
+                    bc-left-button-method="buttonLeft($event, numbers)"
+                    bc-right-button-method="buttonRight($event, numbers)"
+                    on-number-changed="numberChanged(number)"
+                    bc-submit-method="submitMethod(numbers)"
+                ></bc-keypad>
+            `);
+            element = $compile(element)($scope);
+            $scope.$apply();
+            vm = element.isolateScope().vm;
+
+            spyOn($scope, 'buttonLeft');
+            spyOn($scope, 'buttonRight');
+            spyOn($scope, 'numberChanged');
+            spyOn($scope, 'submitMethod');
+        });
+
+        it('it should add a 3 on the keydown event', () => {
+            const keypad = element[0];
+            triggerKeyDown(keypad, '3');
+
+            expect($scope.numbers).toEqual('123');
+        });
+
+        it('it should submit on enter key', () => {
+            const keypad = element[0];
+            triggerKeyDown(keypad, 'Enter');
+
+            expect($scope.submitMethod).toHaveBeenCalledWith('12');
+        });
+
+        it('it should delete on the backspace key', () => {
+            const keypad = element[0];
+            triggerKeyDown(keypad, 'Backspace');
+
+            expect($scope.numbers).toEqual('1');
         });
 
     });
