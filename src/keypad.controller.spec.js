@@ -409,6 +409,13 @@ describe('KeypadController', () => {
             expect($scope.numbers).toEqual('123');
         });
 
+        it('it should call onNumberChanged with 3 on the keydown event', () => {
+            const keypad = element[0];
+            triggerKeyDown(keypad, '3');
+
+            expect($scope.numberChanged).toHaveBeenCalledWith('3');
+        });
+
         it('it should submit on enter key', () => {
             const keypad = element[0];
             triggerKeyDown(keypad, 'Enter');
