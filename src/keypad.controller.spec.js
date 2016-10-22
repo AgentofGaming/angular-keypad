@@ -364,48 +364,6 @@ describe('KeypadController', () => {
 
     });
 
-    describe('callback calling', () => {
-        let $scope;
-        let element;
-        let vm;
-        let event;
-
-        beforeEach(() => {
-            $scope = $rootScope.$new();
-            $scope.numberChanged = function(number) { };
-            $scope.submitMethod = function(numbers) { };
-            $scope.buttonLeft = function($event, numbers) { };
-            $scope.buttonRight = function($event, numbers) { };
-            $scope.numbers = '12';
-            element = angular.element(`
-                    <bc-keypad
-                        bc-number-model="numbers"
-                        bc-left-button="backspace"
-                        bc-right-button="submit"
-                        bc-left-button-method="buttonLeft($event, numbers)"
-                        bc-right-button-method="buttonRight($event, numbers)"
-                        on-number-changed="numberChanged(number)"
-                        bc-submit-method="submitMethod(numbers)"
-                    ></bc-keypad>
-                `);
-            element = $compile(element)($scope);
-            $scope.$apply();
-            vm = element.isolateScope().vm;
-
-            spyOn($scope, 'buttonLeft');
-            spyOn($scope, 'buttonRight');
-            spyOn($scope, 'numberChanged');
-            spyOn($scope, 'submitMethod');
-        });
-
-        it('it should call onNumberChanged with 3 on the keydown event', () => {
-            vm.setNumber('3');
-
-            expect($scope.numberChanged).toHaveBeenCalledWith('3');
-        });
-
-    });
-
 
 });
 

@@ -213,7 +213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        replace: true,
 	        scope: {},
 	        bindToController: {
-	            bcNumberModel: '=?',
+	            bcNumberModel: '=',
 	            bcMaxLength: '@',
 	            bcLeftButton: '@',
 	            bcRightButton: '@',
