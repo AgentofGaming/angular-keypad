@@ -16,7 +16,7 @@ export function KeypadDirective() {
         replace: true,
         scope: {},
         bindToController: {
-            bcNumberModel: '=',
+            bcNumberModel: '=?',
             bcMaxLength: '@',
             bcLeftButton: '@',
             bcRightButton: '@',
